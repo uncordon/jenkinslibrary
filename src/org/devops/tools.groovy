@@ -1,6 +1,6 @@
 package org.devops
 
-def PrintMsg(msg,color){
+def printMsg(msg,color){
     colors = [
         'red': "\033[31m >>>>>>>>>>>>>>>>>>>> ${msg} <<<<<<<<<<<<<<<<<<<< \033[0m",
         'blue': "\033[34m >>>>>>>>>>>>>>>>>>>> ${msg} <<<<<<<<<<<<<<<<<<<< \033[0m",
