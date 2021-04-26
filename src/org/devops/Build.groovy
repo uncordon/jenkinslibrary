@@ -8,7 +8,9 @@ def build(btype,bshell){
     if ("${btype}" == "npm"){
         sh """
             PATH=$PATH:${buildHome}/bin
+            ${buildHome}/bin/${btype} ${bshell}
         """
+    } else {
+        sh "${buildHome}/bin/${btype} ${bshell}"
     }
-    sh "${buildHome}/bin/${btype} ${bshell}"
 }
