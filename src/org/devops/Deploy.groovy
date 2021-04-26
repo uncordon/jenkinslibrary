@@ -1,7 +1,7 @@
 package org.devops
 
 def saltDeploy(hosts,command){
-    sh "salt ${hosts} ${command}"
+    sh "salt -L ${hosts} ${command}"
 }
 
 def ansibleDeploy(){
