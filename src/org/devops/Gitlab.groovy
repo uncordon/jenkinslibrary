@@ -7,7 +7,7 @@ def gitlabHttpAPI(httpHost,crtId,action,url){
                 httpMode: action, 
                 ignoreSslErrors: true, 
                 responseHandle: 'NONE', 
-                url: '${httpHost}/api/v4/${url}', 
+                url: "${httpHost}/api/v4/${url}", 
                 wrapAsMultipart: false
     }
     return res
