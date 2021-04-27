@@ -4,7 +4,7 @@ def gitlabHttpAPI(httpHost,crtId,action,url){
     withCredentials([string(credentialsId: crtId, variable: 'ACCESS_TOKEN')]) {
         res = httpRequest contentType: 'APPLICATION_JSON', 
                 customHeaders: [[maskValue: true, name: 'PRIVATE-TOKEN', value: '${ACCESS_TOKEN}']], 
-                httpMode: 'POST', 
+                httpMode: '${action}', 
                 ignoreSslErrors: true, 
                 responseHandle: 'NONE', 
                 url: '${httpHost}/api/v4/${url}', 
@@ -13,9 +13,11 @@ def gitlabHttpAPI(httpHost,crtId,action,url){
     return res
 }
 
-def gitlabBuildStatus(httpHost,crtId,projectId,commitId,status){
+def gitlabBuildStatus(httpUrl,crtId,projectId,commitId,status){
+    String httpHost = getHttpHost(httpUrl)
     String url = "projects/${projectId}/statuses/${commitId}?state=${status}"
-    response = gitlabHttpAPI(httpHost,crtId,'POST',url)
+    println(url)
+    String response = gitlabHttpAPI(httpHost,crtId,'POST',url)
     println(response)
     return response
 }
