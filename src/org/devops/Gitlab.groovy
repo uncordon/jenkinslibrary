@@ -3,7 +3,7 @@ package org.devops
 def gitlabHttpAPI(httpHost,crtId,action,url){
     withCredentials([string(credentialsId: crtId, variable: 'ACCESS_TOKEN')]) {
         res = httpRequest contentType: 'APPLICATION_JSON', 
-                customHeaders: [[name: 'PRIVATE-TOKEN', value: '${ACCESS_TOKEN}']], 
+                customHeaders: [[name: 'PRIVATE-TOKEN', value: "${ACCESS_TOKEN}"]], 
                 httpMode: action, 
                 ignoreSslErrors: true, 
                 responseHandle: 'NONE', 
