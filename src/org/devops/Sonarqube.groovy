@@ -1,6 +1,6 @@
 package org.devops
 
-class Sonarqube(){
+class Sonarqube{
     String sonarServe
     String username
     String password
