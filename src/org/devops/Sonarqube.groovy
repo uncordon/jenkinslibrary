@@ -5,7 +5,7 @@ def sonarJava(sonarServe,username,password,projectName,projectDescription,projec
     sonarDate = sonarDate - '\n'
     
     sh """
-    sonar-scanner  -Dsonar.host.url=${sonarServe}  \
+    /usr/local/sonar-scanner-cli/bin/sonar-scanner  -Dsonar.host.url=${sonarServe}  \
         -Dsonar.login=${username} \
         -Dsonar.password=${password} \
         -Dsonar.ws.timeout=30 \
