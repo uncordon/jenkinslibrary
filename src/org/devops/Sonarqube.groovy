@@ -1,7 +1,7 @@
 package org.devops
 
 def sonarJava(sonarServe,username,password,projectName,projectDescription,projectPath){
-    withSonarQubeEnv('SONAR', envOnly: true) {
+    withSonarQubeEnv('SONAR') {
         // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
         println ${env.SONAR_CONFIG_NAME}
         println ${env.SONAR_HOST_URL}
