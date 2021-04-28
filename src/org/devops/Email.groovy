@@ -1,7 +1,9 @@
 package org.devops
 
 def sendEmail(status,toUser){
-    emailext body: """
+    emailext attachLog: true, 
+        compressLog: true,
+        body: """
             <!DOCTYPE html> 
             <html> 
             <head> 
