@@ -3,9 +3,9 @@ package org.devops
 def sonarJava(sonarServe,username,password,projectName,projectDescription,projectPath){
     withSonarQubeEnv('SONAR') {
         // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
-        println ${env.SONAR_CONFIG_NAME}
-        println ${env.SONAR_HOST_URL}
-        println ${env.SONAR_AUTH_TOKEN}
+        println("${env.SONAR_CONFIG_NAME}")
+        println("${env.SONAR_HOST_URL}")
+        println("${env.SONAR_AUTH_TOKEN}")
         
         String SONAR_SCAN_CLI_HOME = "/usr/local/sonar-scanner-cli"
         String sonarDate = sh returnStdout:true,script:"date +%Y%m%d%H%M%S"
