@@ -1,7 +1,10 @@
 package org.devops
 
-def sonarJava(projectName,projectDescription,projectPath){
-    withSonarQubeEnv('SONAR') {
+def sonarJava(sonarServer,projectName,projectDescription,projectPath){
+
+    def servers = ["test":"sonarqube-test","dev":"sonarqube-dev","pro":"sonarqube-pro"]
+
+    withSonarQubeEnv(servers[sonarServer]) {
         // This expands the evironment variables SONAR_CONFIG_NAME, SONAR_HOST_URL, SONAR_AUTH_TOKEN that can be used by any script.
         // https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-jenkins
         
