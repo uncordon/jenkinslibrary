@@ -1,6 +1,6 @@
 package org.devops
 
-def email(status,toUser){
+def sendEmail(status,toUser){
     emailext body: """
             <!DOCTYPE html> 
             <html> 
