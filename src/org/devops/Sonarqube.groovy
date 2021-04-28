@@ -4,10 +4,12 @@ class Sonarqube{
     String sonarServe
     String username
     String password
-    String sonarDate = sh returnStdout:true,script:"date +%s"
-    sonarDate = sonarDate - "\n"
+
 
     def sonarJava(projectName,projectDescription,projectPath){
+        String sonarDate = sh returnStdout:true,script:"date +%s"
+        sonarDate = sonarDate - '\n'
+        
         sh """
         sonar-scanner  -Dsonar.host.url=${sonarServe}  \
             -Dsonar.projectKey=${projectName}  \
