@@ -1,7 +1,7 @@
 package org.devops
 
 def sonarJava(sonarServe,username,password,projectName,projectDescription,projectPath){
-    String sonarDate = sh returnStdout:true,script:"date +%s"
+    String sonarDate = sh returnStdout:true,script:"date +%Y%m%d%H%M%S"
     sonarDate = sonarDate - '\n'
     
     sh """
