@@ -14,7 +14,7 @@ def sonarJava(sonarServe,username,password,projectName,projectDescription,projec
         -Dsonar.projectVersion=${sonarDate} \
         -Dsonar.projectDescription=${projectDescription}  \
         -Dsonar.links.homepage=http://www.baidu.com \
-        -Dsonar.sources={projectPath} \
+        -Dsonar.sources=${projectPath} \
         -Dsonar.sourceEncoding=UTF-8 \
         -Dsonar.java.binaries=target/classes \
         -Dsonar.java.test.binaries=target/test-classes \
