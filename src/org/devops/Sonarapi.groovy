@@ -51,7 +51,7 @@ def createProject(apiHost,crtId,projectName,projectKey){
     return responseJSON
 }
 
-// 增加项目质量规则
+//  配置项目质量规则配置
 def configQualityProfile(apiHost,crtId,language,projectKey,qualityProfile){
     String apiUrl  = "${apiHost}/api/qualityprofiles/add_project?language=${language}&project=${projectKey}&qualityProfile=${qualityProfile}"
 
