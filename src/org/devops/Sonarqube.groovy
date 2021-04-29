@@ -1,7 +1,9 @@
 package org.devops
 
 def sonarJava(sonarServer,projectName,projectDescription,projectPath){
-
+    /*
+    发起sonarscan扫描
+    */
     def servers = ["test":"sonarqube-test","dev":"sonarqube-dev","pro":"sonarqube-pro"]
 
     withSonarQubeEnv(servers[sonarServer]) {
@@ -27,24 +29,36 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
             -Dsonar.java.surefire.report=target/surefire-reports
         """
     }
+    // 插件获取执行状态
+    sonarStatus()
+}
+
+def sonarStatus(){
     timeout(time: 5, unit: 'MINUTES') {
         def qg = waitForQualityGate()
         if (qg.status != 'OK') {
-        error "Pipeline aborted due to quality gate failure: ${qg.status}"
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
         }
     }
 }
 
-def sonarHttpRequest(httpHost,crtId,action,url){
-    String apiServer = "${httpHost}/api/${url}"
-    withCredentials([string(credentialsId: crtId, variable: 'ACCESS_TOKEN')]) {
-        res = httpRequest contentType: 'APPLICATION_JSON', 
-                customHeaders: [[name: 'PRIVATE-TOKEN', value: ACCESS_TOKEN]], 
-                httpMode: action, 
-                ignoreSslErrors: true, 
-                responseHandle: 'NONE', 
-                url: apiServer, 
-                wrapAsMultipart: false
-    }
+def sonarHttpRequest(apiUrl,crtId){
+    // 发起GET请求
+    res = httpRequest authentication: crtId, 
+        contentType: 'APPLICATION_JSON', 
+        ignoreSslErrors: true, 
+        responseHandle: 'NONE', 
+        url: apiUrl, 
+        wrapAsMultipart: false
+
     return res
+}
+
+def getSonarStatus(httpHost,projectName,crtId){
+    // 请求HTTP的URL进行拼接
+    String url  = "project_branches/list?project=${projectName}"
+    String apiUrl = "${httpHost}/api/${url}"
+
+    response = sonarHttpRequest(apiUrl,crtId)
+    println response
 }
