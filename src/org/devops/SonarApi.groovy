@@ -1,6 +1,6 @@
 package org.devops
 
-// 请求HTTP的URL进行拼接
+// 获取扫描状态
 def getSonarStatus(httpHost,projectName,crtId){
     String url  = "project_branches/list?project=${projectName}"
     String apiUrl = "${httpHost}/api/${url}"
