@@ -49,9 +49,9 @@ def getSonarStatus(httpHost,projectName,crtId){
     String apiUrl = "${httpHost}/api/${url}"
 
     response = sonarHttpRequest(apiUrl,crtId)
-    responseText = readJSON text: """${response.content}"""
-    println responseText
-    return responseText
+    responseJSON = readJSON text: """${response.content}"""
+    
+    return responseJSON.branches[0].status.qualityGateStatus
 }
 
 // 发起GET请求
