@@ -23,7 +23,7 @@ def getSonarStatus(apiHost,crtId,projectName){
     responseJSON = readJSON text: """${response.content}"""
     println(responseJSON)
     
-    return responseJSON.branches[0].status.qualityGateStatus
+    return responseJSON["branches"][0]["status"]["qualityGateStatus"]
 }
 
 
@@ -34,7 +34,7 @@ def searchProject(apiHost,crtId,projectName){
     response = sonarHttpRequest(apiUrl,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
     println(responseJSON)
-    result = responseJSON.paging.total.toString()
+    result = responseJSON["paging"]["total"].toString()
     if(result == "0"){
         return false
     }
