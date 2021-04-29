@@ -16,7 +16,7 @@ def gitlabHttpRequest(apiUrl,crtId,action){
 def gitlabBuildStatus(httpUrl,crtId,projectId,commitSha,status){
     String apiHost = getApiHost(httpUrl)
     String url = "projects/${projectId}/statuses/${commitSha}?state=${status}"
-    String apiUrl = "${httpHost}/api/v4/${url}"
+    String apiUrl = "${apiHost}/api/v4/${url}"
 
     String response = gitlabHttpRequest(apiUrl,crtId,'POST')
     return response
