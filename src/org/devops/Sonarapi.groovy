@@ -42,7 +42,7 @@ def searchProject(apiHost,projectName,crtId){
 def createProject(apiHost,projectName,projectKey,crtId){
     String apiUrl  = "${apiHost}/api/projects/create?name=${projectName}&projects=${projectKey}"
 
-    response = sonarHttpRequest(apiUrl,crtId,"GET")
+    response = sonarHttpRequest(apiUrl,crtId,"POST")
     responseJSON = readJSON text: """${response.content}"""
 
     return responseJSON
