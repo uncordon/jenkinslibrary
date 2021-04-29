@@ -32,20 +32,17 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
     }
 
     /*
-    插件获取状态
-    */
-    def sonarStatus(){
-        timeout(time: 30, unit: 'MINUTES') {
-            def qg = waitForQualityGate()
-            if (qg.status != 'OK') {
-                error "Pipeline aborted due to quality gate failure: ${qg.status}"
-            }
+    基于插件获取状态
+    timeout(time: 30, unit: 'MINUTES') {
+        def qg = waitForQualityGate()
+        if (qg.status != 'OK') {
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
         }
     }
-    sonarStatus()
+    */
+    
 }
 
-/*
 // 请求HTTP的URL进行拼接
 def getSonarStatus(httpHost,projectName,crtId){
     String url  = "project_branches/list?project=${projectName}"
@@ -66,5 +63,3 @@ def sonarHttpRequest(apiUrl,crtId){
 
     return res
 }
-
-*/
