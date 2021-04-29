@@ -1,24 +1,38 @@
 package org.devops
 
 // 获取扫描状态
-def getSonarStatus(httpHost,projectName,crtId){
+def getSonarStatus(apiHost,projectName,crtId){
     String url  = "project_branches/list?project=${projectName}"
-    String apiUrl = "${httpHost}/api/${url}"
 
-    response = sonarHttpRequest(apiUrl,crtId)
+    response = sonarHttpRequest(apiHost,url,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
-    
+
     return responseJSON.branches[0].status.qualityGateStatus
 }
 
-// 发起GET请求
-def sonarHttpRequest(apiUrl,crtId){
+// 发起请求
+def sonarHttpRequest(apiHost,url,crtId,action){
+    String apiUrl = "${httpHost}/api/${url}"
+
     res = httpRequest authentication: crtId, 
         contentType: 'APPLICATION_JSON', 
         ignoreSslErrors: true, 
+        httpMode: action, 
         responseHandle: 'NONE', 
         url: apiUrl, 
         wrapAsMultipart: false
-
     return res
+}
+
+// 查找项目
+def searchProject(apiHost,projectName,crtId){
+    String url  = "projects/search?projects=${projectName}"
+
+    response = sonarHttpRequest(apiHost,url,crtId,"GET")
+    responseJSON = readJSON text: """${response.content}"""
+    result = paging.total.toString()
+    if(result == "0"){
+        return false
+    }
+    return responseJSON
 }
