@@ -1,5 +1,15 @@
 package org.devops
 
+// 插件获取执行状态
+def sonarStatus(){
+    timeout(time: 5, unit: 'MINUTES') {
+        def qg = waitForQualityGate()
+        if (qg.status != 'OK') {
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+        }
+    }
+}
+
 def sonarJava(sonarServer,projectName,projectDescription,projectPath){
     /*
     发起sonarscan扫描
@@ -29,21 +39,20 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
             -Dsonar.java.surefire.report=target/surefire-reports
         """
     }
-    // 插件获取执行状态
     sonarStatus()
 }
 
-def sonarStatus(){
-    timeout(time: 5, unit: 'MINUTES') {
-        def qg = waitForQualityGate()
-        if (qg.status != 'OK') {
-            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-        }
-    }
+// 请求HTTP的URL进行拼接
+def getSonarStatus(httpHost,projectName,crtId){
+    String url  = "project_branches/list?project=${projectName}"
+    String apiUrl = "${httpHost}/api/${url}"
+
+    response = sonarHttpRequest(apiUrl,crtId)
+    println response
 }
 
+// 发起GET请求
 def sonarHttpRequest(apiUrl,crtId){
-    // 发起GET请求
     res = httpRequest authentication: crtId, 
         contentType: 'APPLICATION_JSON', 
         ignoreSslErrors: true, 
@@ -54,11 +63,3 @@ def sonarHttpRequest(apiUrl,crtId){
     return res
 }
 
-def getSonarStatus(httpHost,projectName,crtId){
-    // 请求HTTP的URL进行拼接
-    String url  = "project_branches/list?project=${projectName}"
-    String apiUrl = "${httpHost}/api/${url}"
-
-    response = sonarHttpRequest(apiUrl,crtId)
-    println response
-}
