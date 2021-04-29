@@ -26,7 +26,7 @@ def getSonarStatus(apiHost,crtId,projectName){
 
 // 查找项目
 def searchProject(apiHost,crtId,projectName){
-    String apiUrl  = "${apiHost}/api/projects/search?project=${projectName}"
+    String apiUrl  = "${apiHost}/api/projects/search?projects=${projectName}"
 
     response = sonarHttpRequest(apiUrl,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
