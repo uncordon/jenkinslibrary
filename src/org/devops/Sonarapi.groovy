@@ -2,6 +2,8 @@ package org.devops
 
 // 发起请求
 def sonarHttpRequest(apiUrl,crtId,action){
+    println(apiUrl)
+    
     res = httpRequest authentication: crtId, 
         contentType: 'APPLICATION_JSON', 
         ignoreSslErrors: true, 
