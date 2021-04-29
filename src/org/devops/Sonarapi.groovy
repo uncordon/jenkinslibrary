@@ -14,7 +14,7 @@ def sonarHttpRequest(apiUrl,crtId,action){
 
 
 // 获取扫描状态
-def getSonarStatus(apiHost,projectName,crtId){
+def getSonarStatus(apiHost,crtId,projectName){
     String apiUrl  = "${apiHost}/api/project_branches/list?project=${projectName}"
 
     response = sonarHttpRequest(apiUrl,crtId,"GET")
@@ -25,7 +25,7 @@ def getSonarStatus(apiHost,projectName,crtId){
 
 
 // 查找项目
-def searchProject(apiHost,projectName,crtId){
+def searchProject(apiHost,crtId,projectName){
     String apiUrl  = "${apiHost}/api/projects/search?projects=${projectName}"
 
     response = sonarHttpRequest(apiUrl,crtId,"GET")
@@ -39,8 +39,18 @@ def searchProject(apiHost,projectName,crtId){
 }
 
 // 创建项目
-def createProject(apiHost,projectName,projectKey,crtId){
+def createProject(apiHost,crtId,projectName,projectKey){
     String apiUrl  = "${apiHost}/api/projects/create?name=${projectName}&projects=${projectKey}"
+
+    response = sonarHttpRequest(apiUrl,crtId,"POST")
+    responseJSON = readJSON text: """${response.content}"""
+
+    return responseJSON
+}
+
+// 增加项目质量规则
+def addProjectConf(apiHost,crtId,projectName,language,projectKey,qualityProfile){
+    String apiUrl  = "${apiHost}/api/qualityprofiles/add_project?language=${language}&project=${projectKey}&${qualityProfile}"
 
     response = sonarHttpRequest(apiUrl,crtId,"POST")
     responseJSON = readJSON text: """${response.content}"""
