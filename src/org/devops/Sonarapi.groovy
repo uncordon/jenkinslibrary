@@ -19,7 +19,8 @@ def getSonarStatus(apiHost,crtId,projectName){
 
     response = sonarHttpRequest(apiUrl,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
-
+    println(responseJSON)
+    
     return responseJSON.branches[0].status.qualityGateStatus
 }
 
@@ -30,7 +31,7 @@ def searchProject(apiHost,crtId,projectName){
 
     response = sonarHttpRequest(apiUrl,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
-    
+    println(responseJSON)
     result = responseJSON.paging.total.toString()
     if(result == "0"){
         return false
@@ -44,7 +45,7 @@ def createProject(apiHost,crtId,projectName,projectKey){
 
     response = sonarHttpRequest(apiUrl,crtId,"POST")
     responseJSON = readJSON text: """${response.content}"""
-
+    println(responseJSON)
     return responseJSON
 }
 
@@ -54,6 +55,6 @@ def addProjectConf(apiHost,crtId,language,projectKey,qualityProfile){
 
     response = sonarHttpRequest(apiUrl,crtId,"POST")
     responseJSON = readJSON text: """${response.content}"""
-
+    println(responseJSON)
     return responseJSON
 }
