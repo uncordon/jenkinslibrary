@@ -34,3 +34,17 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
         }
     }
 }
+
+def sonarHttpRequest(httpHost,crtId,action,url){
+    String apiServer = "${httpHost}/api/${url}"
+    withCredentials([string(credentialsId: crtId, variable: 'ACCESS_TOKEN')]) {
+        res = httpRequest contentType: 'APPLICATION_JSON', 
+                customHeaders: [[name: 'PRIVATE-TOKEN', value: ACCESS_TOKEN]], 
+                httpMode: action, 
+                ignoreSslErrors: true, 
+                responseHandle: 'NONE', 
+                url: apiServer, 
+                wrapAsMultipart: false
+    }
+    return res
+}
