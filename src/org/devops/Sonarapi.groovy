@@ -49,8 +49,8 @@ def createProject(apiHost,crtId,projectName,projectKey){
 }
 
 // 增加项目质量规则
-def addProjectConf(apiHost,crtId,projectName,language,projectKey,qualityProfile){
-    String apiUrl  = "${apiHost}/api/qualityprofiles/add_project?language=${language}&project=${projectKey}&${qualityProfile}"
+def addProjectConf(apiHost,crtId,language,projectKey,qualityProfile){
+    String apiUrl  = "${apiHost}/api/qualityprofiles/add_project?language=${language}&project=${projectKey}&qualityProfile=${qualityProfile}"
 
     response = sonarHttpRequest(apiUrl,crtId,"POST")
     responseJSON = readJSON text: """${response.content}"""
