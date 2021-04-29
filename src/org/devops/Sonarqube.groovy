@@ -17,6 +17,7 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
         
         sh """
             ${SONAR_SCAN_CLI_HOME}/bin/sonar-scanner \
+            -X \
             -Dsonar.ws.timeout=30 \
             -Dsonar.projectKey=${projectName}  \
             -Dsonar.projectName=${projectName} \
