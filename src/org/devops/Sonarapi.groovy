@@ -30,9 +30,12 @@ def searchProject(apiHost,projectName,crtId){
 
     response = sonarHttpRequest(apiHost,url,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
+    println(responseJSON)
+    /*
     result = paging.total.toString()
     if(result == "0"){
         return false
     }
+    */
     return responseJSON
 }
