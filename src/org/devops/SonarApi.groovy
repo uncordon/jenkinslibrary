@@ -12,7 +12,7 @@ def getSonarStatus(apiHost,projectName,crtId){
 
 // 发起请求
 def sonarHttpRequest(apiHost,url,crtId,action){
-    String apiUrl = "${httpHost}/api/${url}"
+    String apiUrl = "${apiHost}/api/${url}"
 
     res = httpRequest authentication: crtId, 
         contentType: 'APPLICATION_JSON', 
