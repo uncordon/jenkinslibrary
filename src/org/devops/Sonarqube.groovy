@@ -17,7 +17,6 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
         
         sh """
             ${SONAR_SCAN_CLI_HOME}/bin/sonar-scanner \
-            -X \
             -Dsonar.ws.timeout=30 \
             -Dsonar.projectKey=${projectName}  \
             -Dsonar.projectName=${projectName} \
@@ -36,7 +35,7 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
     插件获取状态
     */
     
-    timeout(time: 5, unit: 'MINUTES') {
+    timeout(time: 30, unit: 'MINUTES') {
         def qg = waitForQualityGate()
         if (qg.status != 'OK') {
             error "Pipeline aborted due to quality gate failure: ${qg.status}"
