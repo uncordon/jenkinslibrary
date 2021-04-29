@@ -26,7 +26,7 @@ def getSonarStatus(apiHost,crtId,projectName){
 
 // 查找项目
 def searchProject(apiHost,crtId,projectName){
-    String apiUrl  = "${apiHost}/api/projects/search?projects=${projectName}"
+    String apiUrl  = "${apiHost}/api/projects/search?project=${projectName}"
 
     response = sonarHttpRequest(apiUrl,crtId,"GET")
     responseJSON = readJSON text: """${response.content}"""
@@ -40,7 +40,7 @@ def searchProject(apiHost,crtId,projectName){
 
 // 创建项目
 def createProject(apiHost,crtId,projectName,projectKey){
-    String apiUrl  = "${apiHost}/api/projects/create?name=${projectName}&projects=${projectKey}"
+    String apiUrl  = "${apiHost}/api/projects/create?name=${projectName}&project=${projectKey}"
 
     response = sonarHttpRequest(apiUrl,crtId,"POST")
     responseJSON = readJSON text: """${response.content}"""
