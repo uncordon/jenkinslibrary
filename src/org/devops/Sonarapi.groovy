@@ -60,3 +60,31 @@ def configQualityProfile(apiHost,crtId,language,projectKey,qualityProfile){
     println(responseJSON)
     return responseJSON
 }
+
+
+//  获取质量阈ID
+def getGateId(apiHost,crtId,gateName){
+    String apiUrl  = "${apiHost}/api/qualitygates/show?name=${gateName}"
+    response = sonarHttpRequest(apiUrl,crtId,"POST")
+    responseJSON = readJSON text: """${response.content}"""
+    println(responseJSON)
+    id = responseJSON.get("id")
+
+    if ( id == ""){
+        return false
+    }
+
+    return id.toString()
+}
+
+//  关联质量阈
+def configQualityGates(apiHost,crtId,gateName,projectKey){
+
+    def gateId=getGateId(apiHost,crtId,gateName)
+    String apiUrl  = "${apiHost}/api/qualitygates/select?gateId=${gateId}&projectKey=${projectKey}"
+
+    response = sonarHttpRequest(apiUrl,crtId,"POST")
+    responseJSON = readJSON text: """${response.content}"""
+    println(responseJSON)
+    return responseJSON
+}
