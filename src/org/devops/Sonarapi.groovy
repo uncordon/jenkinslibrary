@@ -70,7 +70,8 @@ def getGateId(apiHost,crtId,gateName){
     println(responseJSON)
     id = responseJSON.get("id")
 
-    if ( id == ""){
+    if ( id == null ){
+        error "gateName is not exist!"
         return false
     }
 
