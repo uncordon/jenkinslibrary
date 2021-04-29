@@ -43,6 +43,7 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
     }
 }
 
+/*
 // 请求HTTP的URL进行拼接
 def getSonarStatus(httpHost,projectName,crtId){
     String url  = "project_branches/list?project=${projectName}"
@@ -64,3 +65,4 @@ def sonarHttpRequest(apiUrl,crtId){
     return res
 }
 
+*/
