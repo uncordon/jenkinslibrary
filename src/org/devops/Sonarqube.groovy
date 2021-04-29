@@ -34,13 +34,15 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
     /*
     插件获取状态
     */
-    
-    timeout(time: 30, unit: 'MINUTES') {
-        def qg = waitForQualityGate()
-        if (qg.status != 'OK') {
-            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+    def sonarStatus(){
+        timeout(time: 30, unit: 'MINUTES') {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+            }
         }
     }
+    sonarStatus()
 }
 
 /*
