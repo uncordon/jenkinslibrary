@@ -50,8 +50,8 @@ def getSonarStatus(httpHost,projectName,crtId){
 
     response = sonarHttpRequest(apiUrl,crtId)
     responseText = readJSON text: """${response.content}"""
-    println response
-    return response
+    println responseText
+    return responseText
 }
 
 // 发起GET请求
