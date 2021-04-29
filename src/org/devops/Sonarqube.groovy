@@ -1,14 +1,5 @@
 package org.devops
 
-// 插件获取执行状态
-def sonarStatus(){
-    timeout(time: 5, unit: 'MINUTES') {
-        def qg = waitForQualityGate()
-        if (qg.status != 'OK') {
-            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-        }
-    }
-}
 
 def sonarJava(sonarServer,projectName,projectDescription,projectPath){
     /*
@@ -40,15 +31,15 @@ def sonarJava(sonarServer,projectName,projectDescription,projectPath){
         """
     }
 
-    def sonarStatus(){
-        timeout(time: 5, unit: 'MINUTES') {
-            def qg = waitForQualityGate()
-            if (qg.status != 'OK') {
-                error "Pipeline aborted due to quality gate failure: ${qg.status}"
-            }
+    /*
+    插件获取状态
+    timeout(time: 5, unit: 'MINUTES') {
+        def qg = waitForQualityGate()
+        if (qg.status != 'OK') {
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
         }
     }
-    sonarStatus()
+    */
 }
 
 // 请求HTTP的URL进行拼接
