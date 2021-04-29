@@ -1,27 +1,29 @@
 package org.devops
 
-def gitlabHttpAPI(httpHost,crtId,action,url){
+def gitlabHttpRequest(apiUrl,crtId,action){
     withCredentials([string(credentialsId: crtId, variable: 'ACCESS_TOKEN')]) {
         res = httpRequest contentType: 'APPLICATION_JSON', 
                 customHeaders: [[name: 'PRIVATE-TOKEN', value: ACCESS_TOKEN]], 
                 httpMode: action, 
                 ignoreSslErrors: true, 
                 responseHandle: 'NONE', 
-                url: "${httpHost}/api/v4/${url}", 
+                url: apiUrl, 
                 wrapAsMultipart: false
     }
     return res
 }
 
 def gitlabBuildStatus(httpUrl,crtId,projectId,commitSha,status){
-    String httpHost = getHttpHost(httpUrl)
+    String apiHost = getApiHost(httpUrl)
     String url = "projects/${projectId}/statuses/${commitSha}?state=${status}"
-    String response = gitlabHttpAPI(httpHost,crtId,'POST',url)
+    String apiUrl = "${httpHost}/api/v4/${url}"
+
+    String response = gitlabHttpRequest(apiUrl,crtId,'POST')
     return response
 }
 
-def getHttpHost(httpUrl){
+def getApiHost(httpUrl){
     String protocol = httpUrl.split(':')[0]
-    String host = httpUrl.split('/')[2]
-    return "${protocol}://${host}"
+    String apiHost = httpUrl.split('/')[2]
+    return "${protocol}://${apiHost}"
 }
