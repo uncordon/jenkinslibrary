@@ -2,10 +2,9 @@ package org.devops
 
 def getPomInfo(){
     def jarName = sh returnStdout: true, script: "cd target;ls *.jar"
-    jarName = jarName - "\n"
-    def pom = readMavenPom file: 'pom.xml'
+    env.jarName = jarName - "\n"
 
-    env.jarName = jarName
+    def pom = readMavenPom file: 'pom.xml'
     env.pomGroupId = pom.groupId
     env.pomArtifactId = pom.artifactId
     env.pomVersion = pom.version
