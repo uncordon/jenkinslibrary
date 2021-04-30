@@ -45,14 +45,16 @@ def mavenUpload(repoPotocol,repoHost,repoName,certId){
     """
 }
 
-def upload(repoPotocol='http',repoHost,repoName,certId,type='plugin'){
+def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
     getPomInfo()
-
+    println(type)
     switch(type) {
-        case 'plugin':
+        case "plugin":
+            println("Use plugin upload !")
             pluginUpload(repoPotocol,repoHost,repoName,certId)
             break;
-        case 'maven':
+        case "maven":
+            println("Use mvn command upload !")
             mavenUpload(repoPotocol,repoHost,repoName,certId)
             break;
         default:
