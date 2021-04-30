@@ -5,13 +5,11 @@ def getPomInfo(){
     jarName = jarName - "\n"
     def pom = readMavenPom file: 'pom.xml'
 
-    environment {
-        jarName = jarName
-        pomGroupId = pom.groupId
-        pomArtifactId = pom.artifactId
-        pomVersion = pom.version
-        pomPackaging = pom.packaging
-    }
+    env.jarName = jarName
+    env.pomGroupId = pom.groupId
+    env.pomArtifactId = pom.artifactId
+    env.pomVersion = pom.version
+    env.pomPackaging = pom.packaging
 }
 
 def pluginUpload(repoPotocol,repoHost,repoName,certId){
