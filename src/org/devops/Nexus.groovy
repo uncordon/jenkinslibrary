@@ -1,8 +1,6 @@
 package org.devops
 
 def getPomInfo(){
-
-
     def pom = readMavenPom file: 'pom.xml'
     env.pomGroupId = pom.groupId
     env.pomArtifactId = pom.artifactId
@@ -12,7 +10,6 @@ def getPomInfo(){
 }
 
 def pluginUpload(repoPotocol,repoHost,repoName,certId){
-    getPomInfo()
     // jenkins插件上传
     nexusArtifactUploader artifacts: [[artifactId: pomArtifactId,classifier: "",file: fileName,type: pomPackaging]], 
         credentialsId: certId,
@@ -25,7 +22,6 @@ def pluginUpload(repoPotocol,repoHost,repoName,certId){
 }
 
 def mavenUpload(repoPotocol,repoHost,repoName,certId){
-
     // 原生命令上传
     def m2Home = tool "M2"
     String repoUrl = "${repoPotocol}://${repoHost}/repository/${repoName}"
