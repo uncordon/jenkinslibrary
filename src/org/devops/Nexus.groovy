@@ -1,8 +1,7 @@
 package org.devops
 
 def getPomInfo(){
-    def jarName = sh returnStdout: true, script: "cd target;ls *.jar"
-    env.jarName = jarName - "\n"
+
 
     def pom = readMavenPom file: 'pom.xml'
     env.pomGroupId = pom.groupId
@@ -43,6 +42,9 @@ def mavenUpload(repoPotocol,repoHost,repoName,certId){
 }
 
 def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
+    def jarName = sh returnStdout: true, script: "cd target;ls *.jar"
+    env.jarName = jarName - "\n"
+
     getPomInfo()
     println(type)
     switch(type) {
