@@ -37,6 +37,40 @@ def mavenUpload(repoPotocol,repoHost,repoName,certId){
     """
 }
 
+def artifactUpdate(repoPotocol,repoHost,repoName,certId,repoSnapshotUrl,artifactUrl){
+    sh "wget ${artifactUrl}"
+    
+    // 获取pomInfo
+    // [, com, mycompany, app, my-app, 1.0-SNAPSHOT, my-app-1.0-20210430.082831-6.jar]
+    pomInfo = artifactUrl.minus(repoSnapshotUrl).split("/").toList()
+
+    // 获取pomGroupId
+    env.pomGroupId = pomInfo[0..2].join(".")
+
+    // 获取pomArtifactId
+    env.pomArtifactId = pomInfo[3]
+
+    // 获取pomVersion
+    env.pomVersion = pomInfo[4].replace("SNAPSHOT","RELEASE")
+
+    // 获取jarName
+    // my-app-1.0-20210430.082831-6.jar
+    jarName = pomInfo[-1]
+
+    // 获取pomPackaging
+    // jar
+    env.pomPackaging = jarName.split("\\.")[-1]
+
+    // 设置新的jarName
+    env.fileName = "${pomArtifactId}-${pomVersion}.${pomPackaging}"
+
+    // jar重命名
+    sh "mv ${jarName} ${fileName}"
+
+    // 上传制品
+    nexus.pluginUpload(repoPotocol,repoHost,repoName,certId)
+}
+
 def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
     def jarName = sh returnStdout: true, script: "cd target;ls *.jar"
     env.jarName = jarName - "\n"
