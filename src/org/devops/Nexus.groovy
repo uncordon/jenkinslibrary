@@ -1,26 +1,38 @@
 package org.devops
 
-def base(){
-    def pomInfo = [:]
+def getPomInfo(){
     def jarName = sh returnStdout: true, script: "cd target;ls *.jar"
     jarName = jarName - "\n"
     def pom = readMavenPom file: 'pom.xml'
 
-    pomInfo['jarName'] = jarName
-    pomInfo['pomGroupId'] = pom.groupId
-    pomInfo['pomArtifactId'] = pom.artifactId
-    pomInfo['pomVersion'] = pom.version
-    pomInfo['pomPackaging'] = pom.packaging
-
-    return pomInfo
+    environment {
+        jarName = jarName
+        pomGroupId = pom.groupId
+        pomArtifactId = pom.artifactId
+        pomVersion = pom.version
+        pomPackaging = pom.packaging
+    }
 }
 
-def mavenUpload(repoPotocol='http',repoHost,repoName,certId){
-    def pomInfo  = base()
+def pluginUpload(repoPotocol,repoHost,repoName,certId){
+    getPomInfo()
+    // jenkins插件上传
+    String fileName = "target/${jarName}"
+    nexusArtifactUploader artifacts: [[artifactId: pomArtifactId,classifier: "",file: fileName,type: pomPackaging]], 
+        credentialsId: certId,
+        groupId: pomGroupId,
+        nexusUrl: repoHost,
+        nexusVersion: "nexus3", 
+        protocol: repoPotocol, 
+        repository: repoName, 
+        version: pomVersion
+}
 
-    /*
+def mavenUpload(repoPotocol,repoHost,repoName,certId){
+
     // 原生命令上传
     def m2Home = tool "M2"
+    String repoUrl = "${repoPotocol}://${repoHost}/repository/${repoName}"
     sh """
         ${m2Home}/bin/mvn deploy:deploy-file -Dmaven.test.skip=true \
         -DgroupId=${pomGroupId} \
@@ -28,20 +40,22 @@ def mavenUpload(repoPotocol='http',repoHost,repoName,certId){
         -Dversion=${pomVersion} \
         -Dpackaging=${pomPackaging} \
         -Dfile=./target/${jarName} \
-        -DrepositoryId=${serverId}\
-        -Durl=https://maven.ibumobile.com/repository/demo-hosted
+        -DrepositoryId=${repoName}\
+        -Durl=${repoUrl}
     """
-    */
-    
-    
-    // jenkins插件上传
-    String fileName = "target/${pomInfo.jarName}"
-    nexusArtifactUploader artifacts:[[artifactId:"${pomInfo.pomArtifactId}",classifier:"",file:"${fileName}",type:"${pomInfo.pomPackaging}"]], 
-        credentialsId: certId,
-        groupId: "${pomInfo.pomGroupId}",
-        nexusUrl: repoHost,
-        nexusVersion: "nexus3", 
-        protocol: repoPotocol, 
-        repository: repoName, 
-        version: "${pomInfo.pomVersion}"
+}
+
+def upload(repoPotocol='http',repoHost,repoName,certId,type='plugin'){
+    getPomInfo()
+
+    switch(type) {
+        case 'plugin':
+            pluginUpload(repoPotocol,repoHost,repoName,certId)
+            break;
+        case 'maven':
+            mavenUpload(repoPotocol,repoHost,repoName,certId)
+            break;
+        default:
+            error "Type error!"
+    }
 }
