@@ -10,6 +10,7 @@ def getPomInfo(){
 }
 
 def pluginUpload(repoPotocol,repoHost,repoName,certId){
+    println("Use plugin upload !")
     // jenkins插件上传
     nexusArtifactUploader artifacts: [[artifactId: pomArtifactId,classifier: "",file: fileName,type: pomPackaging]], 
         credentialsId: certId,
@@ -22,6 +23,7 @@ def pluginUpload(repoPotocol,repoHost,repoName,certId){
 }
 
 def mavenUpload(repoPotocol,repoHost,repoName,certId){
+    println("Use mvn command upload !")
     // 原生命令上传
     def m2Home = tool "M2"
     String repoUrl = "${repoPotocol}://${repoHost}/repository/${repoName}"
@@ -79,11 +81,9 @@ def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
     println(type)
     switch(type) {
         case "plugin":
-            println("Use plugin upload !")
             pluginUpload(repoPotocol,repoHost,repoName,certId)
             break;
         case "maven":
-            println("Use mvn command upload !")
             mavenUpload(repoPotocol,repoHost,repoName,certId)
             break;
         default:
