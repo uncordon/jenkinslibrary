@@ -9,6 +9,7 @@ def getPomInfo(){
     env.pomArtifactId = pom.artifactId
     env.pomVersion = pom.version
     env.pomPackaging = pom.packaging
+    env.fileName = "target/${jarName}"
 }
 
 def pluginUpload(repoPotocol,repoHost,repoName,certId){
@@ -35,7 +36,7 @@ def mavenUpload(repoPotocol,repoHost,repoName,certId){
         -DartifactId=${pomArtifactId} \
         -Dversion=${pomVersion} \
         -Dpackaging=${pomPackaging} \
-        -Dfile=./target/${jarName} \
+        -Dfile=${filename} \
         -DrepositoryId=${repoName}\
         -Durl=${repoUrl}
     """
@@ -47,7 +48,6 @@ def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
     switch(type) {
         case "plugin":
             println("Use plugin upload !")
-            String fileName = "target/${jarName}"
             pluginUpload(repoPotocol,repoHost,repoName,certId)
             break;
         case "maven":
