@@ -14,7 +14,6 @@ def getPomInfo(){
 def pluginUpload(repoPotocol,repoHost,repoName,certId){
     getPomInfo()
     // jenkins插件上传
-    String fileName = "target/${jarName}"
     nexusArtifactUploader artifacts: [[artifactId: pomArtifactId,classifier: "",file: fileName,type: pomPackaging]], 
         credentialsId: certId,
         groupId: pomGroupId,
@@ -48,6 +47,7 @@ def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
     switch(type) {
         case "plugin":
             println("Use plugin upload !")
+            String fileName = "target/${jarName}"
             pluginUpload(repoPotocol,repoHost,repoName,certId)
             break;
         case "maven":
