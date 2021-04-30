@@ -70,7 +70,7 @@ def artifactUpdate(repoPotocol,repoHost,repoName,certId,repoSnapshotUrl,artifact
     sh "mv ${jarName} ${fileName}"
 
     // 上传制品
-    nexus.pluginUpload(repoPotocol,repoHost,repoName,certId)
+    pluginUpload(repoPotocol,repoHost,repoName,certId)
 }
 
 def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
