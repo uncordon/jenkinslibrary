@@ -59,5 +59,6 @@ def upload(repoPotocol="http",repoHost,repoName,certId,type="plugin"){
             break;
         default:
             error "Type error!"
+            return false
     }
 }
